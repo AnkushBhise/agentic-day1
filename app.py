@@ -43,21 +43,15 @@ def main():
     for prompt in prompts:
         naive_invocation(llm=llm_openai, message=prompt)
 
-    prompt_1 = [SystemMessage(content="You are a senior AI architect reviewing production systems."),
-    HumanMessage(content="We are building an AI system for processing medical insurance claims.")]
-    prompt_2 = [HumanMessage(content="What are the main risks in this system?")]
-    prompts = [prompt_1, prompt_2]
+    prompts = [SystemMessage(content="You are a senior AI architect reviewing production systems."),
+    HumanMessage(content="We are building an AI system for processing medical insurance claims."), HumanMessage(content="What are the main risks in this system?")]
 
-    conversation_history = []
-    # Accumulates across turns
-    print("=" * 60)
-    print(f"Context_Fix Sending:")
     for prompt in prompts:
-        for m in prompt:
-            print(f"{m.content}")
-            print("=" * 60)
-        conversation_history += prompt
-        conversation_history.append(context_fix(llm=llm_openai, conversation_history=conversation_history))
+        print("=" * 60)
+        print(f"Context_Fix Sending:")
+        print(f"{prompt.content}")
+    context_fix(llm=llm_openai, conversation_history=prompts)
+    print("=" * 60)
 
 
 if __name__ == "__main__":
