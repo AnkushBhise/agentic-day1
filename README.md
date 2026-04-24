@@ -69,6 +69,12 @@ OPENAI_API_KEY=your_openai_api_key_here
 GOOGLE_API_KEY=your_google_api_key_here  # Optional
 ```
 
+⚠️ **Important Security Note**: **Do NOT add `.env` file to Git!**
+- The `.env` file contains sensitive API keys and credentials
+- Always add `.env` to your `.gitignore` file to prevent accidental commits
+- Use `.env.example` template file for documentation without exposing secrets
+- Never share or commit environment files containing API keys
+
 ### 5. Run the Application
 ```bash
 python app.py
