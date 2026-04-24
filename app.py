@@ -42,7 +42,6 @@ def context_fix(llm, conversation_history):
 
 def main():
     llm_openai = ChatOpenAI(model="gpt-4.1-nano")
-    
     prompt_1 = [SystemMessage(content="You are a concise, professional, and friendly assistant. Always respond in a funny manner."),
     HumanMessage(content="What is Agentic AI?")]
     prompt_2 = [HumanMessage(content="What are its applications?")]
@@ -60,3 +59,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+Reflection:
+1. Why did string-based invocation fail?
+Answer: String-based invocation fails because it doesn't maintain any context between turns, leading to responses that don't consider previous parts of the conversation.
+2. Why does message-based invocation work?
+Answer: Message-based invocation works because it allows us to maintain a conversation history, enabling the model to understand the context and provide coherent responses that build on previous interactions.
+3. What would break in a production AI system if we ignore message history?
+Answer: In a production AI system, ignoring message history would lead to disjointed and confusing conversations, as the model would not have the necessary context to provide meaningful responses.
+"""
