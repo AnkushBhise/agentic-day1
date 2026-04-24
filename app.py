@@ -11,9 +11,7 @@ load_dotenv()
 # ──────────────────────────────────────────────
 def naive_invocation(llm, message):
     print("=" * 60)
-    print(f"Naive_Invocation Sending:")
-    for m in message:
-        print(f"{m.content}")
+    print(f"Naive_Invocation Sending: {message}" )
     print("=" * 60)
 
     # OpenAI — no prior context
@@ -27,12 +25,6 @@ def naive_invocation(llm, message):
 # Full conversation history is passed each time.
 # ──────────────────────────────────────────────
 def context_fix(llm, conversation_history):
-    print("=" * 60)
-    print(f"Context_Fix Sending:")
-    for m in conversation_history:
-        print(f"{m.content}")
-    print("=" * 60)
-
     # OpenAI — full history
     openai_response = llm.invoke(conversation_history)
     print(f"[OpenAI]  {openai_response.content}")
@@ -42,17 +34,28 @@ def context_fix(llm, conversation_history):
 
 def main():
     llm_openai = ChatOpenAI(model="gpt-4.1-nano")
-    prompt_1 = [SystemMessage(content="You are a concise, professional, and friendly assistant. Always respond in a funny manner."),
-    HumanMessage(content="What is Agentic AI?")]
-    prompt_2 = [HumanMessage(content="What are its applications?")]
-    prompts = [prompt_1, prompt_2]
+
+    prompts = [
+        "We are building an AI system for processing medical insurance claims.",
+        "What are the main risks in this system?"
+    ]
 
     for prompt in prompts:
         naive_invocation(llm=llm_openai, message=prompt)
 
+    prompt_1 = [SystemMessage(content="You are a senior AI architect reviewing production systems."),
+    HumanMessage(content="We are building an AI system for processing medical insurance claims.")]
+    prompt_2 = [HumanMessage(content="What are the main risks in this system?")]
+    prompts = [prompt_1, prompt_2]
+
     conversation_history = []
     # Accumulates across turns
+    print("=" * 60)
+    print(f"Context_Fix Sending:")
     for prompt in prompts:
+        for m in prompt:
+            print(f"{m.content}")
+            print("=" * 60)
         conversation_history += prompt
         conversation_history.append(context_fix(llm=llm_openai, conversation_history=conversation_history))
 
